@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+// Get Q2 logs and reviews
+const allLogs = await getCollection('logs');
+const allReviews = await getCollection('reviews');
+const q2Logs = allLogs.filter(log => log.data.quarter === 2);
+const q2Reviews = allReviews.filter(review => review.data.quarter === 2);
+
+const baseUrl = import.meta.env.BASE_URL;
+
+// Calculate Q2 stats
+const totalLogsQ2 = q2Logs.length;
+const totalReviewsQ2 = q2Reviews.length;
+const totalHunting = q2Logs.reduce((sum, log) => sum + (log.data.hunting || 0), 0);
+const totalHours = q2Logs.reduce((sum, log) => sum + (log.data.total || 0), 0);
+
+function formatTime(minutes: number | undefined): string {
+  if (minutes === undefined || minutes === 0) {
+    return '0m';
+  }
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  if (hours === 0) return `${mins}m`;
+  if (mins === 0) return `${hours}h`;
+  return `${hours}h ${mins}m`;
+}
+---
+
+<BaseLayout title="Q2 Reference" description="Quarter 2 reference page with 12-Week Outcome and Phase Goals">
+  <div class="container-custom py-12">
+    <!-- Header -->
+    <div class="mb-12">
+      <div class="mb-4">
+        <a href={`${baseUrl}/logs/`} class="text-soft-indigo hover:text-sage transition text-sm font-medium">
+          ← Back to Timeline
+        </a>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        Quarter <span class="text-gradient">2</span> Reference
+      </h1>
+      <p class="text-xl text-slate-300 max-w-3xl">
+        Quick reference for Q2 12-Week Outcome and Phase Goals
+      </p>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+      <div class="card text-center py-4">
+        <div class="text-2xl font-bold text-soft-indigo">{totalLogsQ2}</div>
+        <div class="text-sm text-slate-400">Daily Logs</div>
+      </div>
+      <div class="card text-center py-4">
+        <div class="text-2xl font-bold text-sage">{totalReviewsQ2}</div>
+        <div class="text-sm text-slate-400">Weekly Reviews</div>
+      </div>
+      <div class="card text-center py-4">
+        <div class="text-2xl font-bold text-soft-indigo">{formatTime(totalHunting)}</div>
+        <div class="text-sm text-slate-400">Hunting Time</div>
+      </div>
+      <div class="card text-center py-4">
+        <div class="text-2xl font-bold text-sage">{formatTime(totalHours)}</div>
+        <div class="text-sm text-slate-400">Total Time</div>
+      </div>
+    </div>
+
+    <!-- 12-Week Outcome -->
+    <section class="mb-12">
+      <div class="card">
+        <h2 class="text-3xl font-bold mb-6 flex items-center">
+          <span class="text-gradient">12-Week Outcome</span>
+        </h2>
+        <div class="prose prose-lg max-w-none text-slate-300">
+          <p>Build on Q1 foundation with specialized skills and consistent bug finding.</p>
+          <ul>
+            <li>Master authentication and authorization vulnerabilities</li>
+            <li>Develop custom tools and automation scripts</li>
+            <li>Build active hunting workflow and processes</li>
+            <li>Target: 10+ confirmed bug reports with at least 1 moderate severity</li>
+            <li>Establish reputation on platforms and join private programs</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Phase Goals -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold mb-6 flex items-center">
+        <span class="text-gradient">Phase Goals</span>
+      </h2>
+      
+      <div class="space-y-6">
+        <!-- Phase 1 -->
+        <div class="card">
+          <h3 class="text-2xl font-bold mb-4 text-soft-indigo">Phase 1: Specialization (Weeks 12-9)</h3>
+          <div class="prose prose-lg max-w-none text-slate-300">
+            <p><strong>Goal:</strong> Deepen Expertise</p>
+            <ul>
+              <li>Deep dive into authentication mechanisms</li>
+              <li>Master broken access control vulnerabilities</li>
+              <li>Create reusable scanning scripts</li>
+              <li>Analyze 20+ public writeups from hunters</li>
+              <li>Dedicate 70% time to hunting, 30% to learning</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="card">
+          <h3 class="text-2xl font-bold mb-4 text-soft-indigo">Phase 2: Production Hunting (Weeks 8-5)</h3>
+          <div class="prose prose-lg max-w-none text-slate-300">
+            <p><strong>Goal:</strong> Scale Bug Finding</p>
+            <ul>
+              <li>Hunt in 5+ active programs simultaneously</li>
+              <li>Establish workflow patterns for efficiency</li>
+              <li>Target 5+ valid submissions per week</li>
+              <li>Focus on medium/high severity findings</li>
+              <li>Build testing checklist for different app types</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="card">
+          <h3 class="text-2xl font-bold mb-4 text-soft-indigo">Phase 3: Excellence (Weeks 4-1)</h3>
+          <div class="prose prose-lg max-w-none text-slate-300">
+            <p><strong>Goal:</strong> Achieve Consistent Results</p>
+            <ul>
+              <li>Reach 10+ confirmed bug reports milestone</li>
+              <li>Achieve at least 1 moderate severity finding</li>
+              <li>Join 2+ private programs</li>
+              <li>Establish consistent monthly bounties</li>
+              <li>Plan Q3 (advanced techniques and specialization)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <div class="flex gap-4 justify-center mt-12 pt-8 border-t border-slate-700">
+      <a href={`${baseUrl}/quarters/q1/`} class="btn btn-secondary">
+        ← Q1 Reference
+      </a>
+      <a href={`${baseUrl}/logs/`} class="btn btn-secondary">
+        Back to Timeline
+      </a>
+      <a href={`${baseUrl}/quarters/q3/`} class="btn btn-secondary">
+        Q3 Reference →
+      </a>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+// Get Q4 logs and reviews
+const allLogs = await getCollection('logs');
+const allReviews = await getCollection('reviews');
+const q4Logs = allLogs.filter(log => log.data.quarter === 4);
+const q4Reviews = allReviews.filter(review => review.data.quarter === 4);
+
+const baseUrl = import.meta.env.BASE_URL;
+
+// Calculate Q4 stats
+const totalLogsQ4 = q4Logs.length;
+const totalReviewsQ4 = q4Reviews.length;
+const totalHunting = q4Logs.reduce((sum, log) => sum + (log.data.hunting || 0), 0);
+const totalHours = q4Logs.reduce((sum, log) => sum + (log.data.total || 0), 0);
+
+function formatTime(minutes: number | undefined): string {
+  if (minutes === undefined || minutes === 0) {
+    return '0m';
+  }
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  if (hours === 0) return `${mins}m`;
+  if (mins === 0) return `${hours}h`;
+  return `${hours}h ${mins}m`;
+}
+---
+
+<BaseLayout title="Q4 Reference" description="Quarter 4 reference page with 12-Week Outcome and Phase Goals">
+  <div class="container-custom py-12">
+    <!-- Header -->
+    <div class="mb-12">
+      <div class="mb-4">
+        <a href={`${baseUrl}/logs/`} class="text-soft-indigo hover:text-sage transition text-sm font-medium">
+          ← Back to Timeline
+        </a>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        Quarter <span class="text-gradient">4</span> Reference
+      </h1>
+      <p class="text-xl text-slate-300 max-w-3xl">
+        Quick reference for Q4 12-Week Outcome and Phase Goals
+      </p>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+      <div class="card text-center py-4">
+        <div class="text-2xl font-bold text-soft-indigo">{totalLogsQ4}</div>
+        <div class="text-sm text-slate-400">Daily Logs</div>
+      </div>
+      <div class="card text-center py-4">
+        <div class="text-2xl font-bold text-sage">{totalReviewsQ4}</div>
+        <div class="text-sm text-slate-400">Weekly Reviews</div>
+      </div>
+      <div class="card text-center py-4">
+        <div class="text-2xl font-bold text-soft-indigo">{formatTime(totalHunting)}</div>
+        <div class="text-sm text-slate-400">Hunting Time</div>
+      </div>
+      <div class="card text-center py-4">
+        <div class="text-2xl font-bold text-sage">{formatTime(totalHours)}</div>
+        <div class="text-sm text-slate-400">Total Time</div>
+      </div>
+    </div>
+
+    <!-- 12-Week Outcome -->
+    <section class="mb-12">
+      <div class="card">
+        <h2 class="text-3xl font-bold mb-6 flex items-center">
+          <span class="text-gradient">12-Week Outcome</span>
+        </h2>
+        <div class="prose prose-lg max-w-none text-slate-300">
+          <p>Consolidate all learning and achieve expert-level results.</p>
+          <ul>
+            <li>Become recognized expert in specific vulnerability domains</li>
+            <li>Sustain consistent high-value bug finding</li>
+            <li>Target: 30+ total confirmed reports with 5+ moderate/high severity</li>
+            <li>Achieve $X,XXX total bounty earnings</li>
+            <li>Plan future (career transition, continued specialization, or content creation)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Phase Goals -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold mb-6 flex items-center">
+        <span class="text-gradient">Phase Goals</span>
+      </h2>
+      
+      <div class="space-y-6">
+        <!-- Phase 1 -->
+        <div class="card">
+          <h3 class="text-2xl font-bold mb-4 text-soft-indigo">Phase 1: Specialization (Weeks 12-9)</h3>
+          <div class="prose prose-lg max-w-none text-slate-300">
+            <p><strong>Goal:</strong> Become a Domain Expert</p>
+            <ul>
+              <li>Choose specialization (e.g., API security, blockchain, mobile)</li>
+              <li>Deep dive into chosen domain</li>
+              <li>Develop unique hunting methodology</li>
+              <li>Create comprehensive knowledge base</li>
+              <li>Build track record in specific domain</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="card">
+          <h3 class="text-2xl font-bold mb-4 text-soft-indigo">Phase 2: Excellence (Weeks 8-5)</h3>
+          <div class="prose prose-lg max-w-none text-slate-300">
+            <p><strong>Goal:</strong> Achieve Consistent High Results</p>
+            <ul>
+              <li>Hunt exclusively in specialized domain</li>
+              <li>Target highest-paying programs and vulnerabilities</li>
+              <li>Maintain 80%+ submission acceptance rate</li>
+              <li>Target $200+ average bounty per report</li>
+              <li>Establish thought leadership in community</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="card">
+          <h3 class="text-2xl font-bold mb-4 text-soft-indigo">Phase 3: Mastery & Impact (Weeks 4-1)</h3>
+          <div class="prose prose-lg max-w-none text-slate-300">
+            <p><strong>Goal:</strong> Achieve Year-End Targets</p>
+            <ul>
+              <li>Reach 30+ confirmed reports milestone</li>
+              <li>Achieve 5+ moderate/high severity findings</li>
+              <li>Earn $X,XXX+ in total bounties</li>
+              <li>Publish comprehensive findings/writeups</li>
+              <li>Plan 2026 strategy (continuation, transition, or new goals)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <div class="flex gap-4 justify-center mt-12 pt-8 border-t border-slate-700">
+      <a href={`${baseUrl}/quarters/q3/`} class="btn btn-secondary">
+        ← Q3 Reference
+      </a>
+      <a href={`${baseUrl}/logs/`} class="btn btn-secondary">
+        Back to Timeline
+      </a>
+      <a href={`${baseUrl}/roadmap/`} class="btn btn-secondary">
+        Roadmap →
+      </a>
+    </div>
+  </div>
+</BaseLayout>
