@@ -3,6 +3,8 @@ title: "Q1 Week 12 Review: Foundation Week"
 date: 2025-12-01
 quarter: 1
 week: 12
+phaseGoal: "Build Foundation - Master core tools & methodology"
+weeklyFocus: "Environment Setup & Web Fundamentals"
 weekProgress: 85
 wins:
   - Set up complete testing environment
@@ -17,6 +19,8 @@ nextWeekFocus:
   - Focus on XSS and CSRF vulnerabilities
   - Submit first bug report (even if it's a duplicate)
   - Limit learning to 2 hours, hunting to 3 hours daily
+Weekly_Total(hrs): "60:02"
+Weekly_Hunting(hrs): "40:02"
 description: First week reflection - building the foundation
 ---
 ### Week 12 Review: The Foundation
