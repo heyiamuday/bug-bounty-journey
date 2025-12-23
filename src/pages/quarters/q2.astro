@@ -28,39 +28,42 @@ function formatTime(minutes: number | undefined): string {
 }
 ---
 
-<BaseLayout title="Q2 Reference" description="Quarter 2 reference page with 12-Week Outcome and Phase Goals">
+<BaseLayout title="Q2 Reference - Bug Bounty Journey" description="Quarter 2 reference page with 12-Week Outcome and Phase Goals">
   <div class="container-custom py-12">
     <!-- Header -->
     <div class="mb-12">
       <div class="mb-4">
-        <a href={`${baseUrl}/logs/`} class="text-soft-indigo hover:text-sage transition text-sm font-medium">
-          ← Back to Timeline
+        <a href={`${baseUrl}/logs/`} class="text-soft-indigo hover:text-sage transition text-sm font-medium inline-flex items-center">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          Back to Timeline
         </a>
       </div>
       <h1 class="text-4xl md:text-5xl font-bold mb-4">
-        Quarter <span class="text-gradient">2</span> Reference
+        Quarter <span class="text-gradient">2</span>
       </h1>
       <p class="text-xl text-slate-300 max-w-3xl">
-        Quick reference for Q2 12-Week Outcome and Phase Goals
+        Execution Phase - Scaling Bug Finding & Specialization
       </p>
     </div>
 
     <!-- Stats -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-      <div class="card text-center py-4">
-        <div class="text-2xl font-bold text-soft-indigo">{totalLogsQ2}</div>
+      <div class="card text-center py-6 border-soft-indigo/30 hover:border-soft-indigo/50 transition-colors">
+        <div class="text-3xl font-bold text-soft-indigo mb-2">{totalLogsQ2}</div>
         <div class="text-sm text-slate-400">Daily Logs</div>
       </div>
-      <div class="card text-center py-4">
-        <div class="text-2xl font-bold text-sage">{totalReviewsQ2}</div>
+      <div class="card text-center py-6 border-sage/30 hover:border-sage/50 transition-colors">
+        <div class="text-3xl font-bold text-sage mb-2">{totalReviewsQ2}</div>
         <div class="text-sm text-slate-400">Weekly Reviews</div>
       </div>
-      <div class="card text-center py-4">
-        <div class="text-2xl font-bold text-soft-indigo">{formatTime(totalHunting)}</div>
+      <div class="card text-center py-6 border-soft-indigo/30 hover:border-soft-indigo/50 transition-colors">
+        <div class="text-3xl font-bold text-soft-indigo mb-2">{formatTime(totalHunting)}</div>
         <div class="text-sm text-slate-400">Hunting Time</div>
       </div>
-      <div class="card text-center py-4">
-        <div class="text-2xl font-bold text-sage">{formatTime(totalHours)}</div>
+      <div class="card text-center py-6 border-sage/30 hover:border-sage/50 transition-colors">
+        <div class="text-3xl font-bold text-sage mb-2">{formatTime(totalHours)}</div>
         <div class="text-sm text-slate-400">Total Time</div>
       </div>
     </div>
@@ -140,14 +143,20 @@ function formatTime(minutes: number | undefined): string {
 
     <!-- Navigation -->
     <div class="flex gap-4 justify-center mt-12 pt-8 border-t border-slate-700">
-      <a href={`${baseUrl}/quarters/q1/`} class="btn btn-secondary">
-        ← Q1 Reference
+      <a href={`${baseUrl}/quarters/q1/`} class="btn btn-secondary inline-flex items-center">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Q1 Reference
       </a>
       <a href={`${baseUrl}/logs/`} class="btn btn-secondary">
         Back to Timeline
       </a>
-      <a href={`${baseUrl}/quarters/q3/`} class="btn btn-secondary">
-        Q3 Reference →
+      <a href={`${baseUrl}/quarters/q3/`} class="btn btn-secondary inline-flex items-center">
+        Q3 Reference
+        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
       </a>
     </div>
   </div>

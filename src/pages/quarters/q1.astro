@@ -28,7 +28,215 @@ function formatTime(minutes: number | undefined): string {
 }
 ---
 
-<BaseLayout title="Q1 Reference" description="Quarter 1 reference page with 12-Week Outcome and Phase Goals">
+<BaseLayout title="Q1 Reference - Bug Bounty Journey" description="Quarter 1 reference page with 12-Week Outcome and Phase Goals">
+  <div class="container-custom py-12">
+    <!-- Header -->
+    <div class="mb-12">
+      <div class="mb-4">
+        <a href={`${baseUrl}/logs/`} class="text-soft-indigo hover:text-sage transition text-sm font-medium inline-flex items-center">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          Back to Timeline
+        </a>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        Quarter <span class="text-gradient">1</span>
+      </h1>
+      <p class="text-xl text-slate-300 max-w-3xl">
+        Foundation Phase - Building Core Security Fundamentals
+      </p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+      <div class="card text-center py-6 border-soft-indigo/30 hover:border-soft-indigo/50 transition-colors">
+        <div class="text-3xl font-bold text-soft-indigo mb-2">{totalLogsQ1}</div>
+        <div class="text-sm text-slate-400">Daily Logs</div>
+      </div>
+      <div class="card text-center py-6 border-sage/30 hover:border-sage/50 transition-colors">
+        <div class="text-3xl font-bold text-sage mb-2">{totalReviewsQ1}</div>
+        <div class="text-sm text-slate-400">Weekly Reviews</div>
+      </div>
+      <div class="card text-center py-6 border-soft-indigo/30 hover:border-soft-indigo/50 transition-colors">
+        <div class="text-3xl font-bold text-soft-indigo mb-2">{formatTime(totalHunting)}</div>
+        <div class="text-sm text-slate-400">Hunting Time</div>
+      </div>
+      <div class="card text-center py-6 border-sage/30 hover:border-sage/50 transition-colors">
+        <div class="text-3xl font-bold text-sage mb-2">{formatTime(totalHours)}</div>
+        <div class="text-sm text-slate-400">Total Time</div>
+      </div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="max-w-4xl mx-auto space-y-12">
+      <!-- 12-Week Outcome Section -->
+      <section class="card border-l-4 border-l-soft-indigo">
+        <h2 class="text-3xl font-bold text-slate-50 mb-4 flex items-center">
+          <span class="w-2 h-2 bg-soft-indigo rounded-full mr-3"></span>
+          12-Week Outcome
+        </h2>
+        <p class="text-slate-300 mb-4">Establish a strong foundation in web application security fundamentals and begin active bug bounty hunting.</p>
+        <ul class="space-y-2 text-slate-300">
+          <li class="flex items-start"><span class="text-soft-indigo mr-3">▸</span> Master HTTP/HTTPS and basic web vulnerabilities</li>
+          <li class="flex items-start"><span class="text-soft-indigo mr-3">▸</span> Complete OWASP Top 10 training</li>
+          <li class="flex items-start"><span class="text-soft-indigo mr-3">▸</span> Join 3+ bug bounty platforms</li>
+          <li class="flex items-start"><span class="text-soft-indigo mr-3">▸</span> Develop personal testing methodology</li>
+          <li class="flex items-start"><span class="text-soft-indigo mr-3">▸</span> Target: Find first valid bug report</li>
+        </ul>
+      </section>
+
+      <!-- Phases Container -->
+      <div class="space-y-6">
+        <!-- Phase 1 -->
+        <section class="card border-t-4 border-t-soft-indigo/50">
+          <h2 class="text-2xl font-bold text-slate-50 mb-4 flex items-center">
+            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-soft-indigo/20 text-soft-indigo mr-3 text-sm font-bold">1</span>
+            Foundation (Weeks 12-9)
+          </h2>
+          <p class="text-slate-300 mb-6"><strong class="text-slate-100">Goal:</strong> Build Core Fundamentals</p>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-charcoal/50 p-4 rounded border border-slate-700">
+              <h3 class="text-lg font-semibold text-soft-indigo mb-3">Focus Areas</h3>
+              <ul class="space-y-2 text-sm text-slate-300">
+                <li class="flex items-start"><span class="text-soft-indigo mr-2">•</span> HTTP/HTTPS fundamentals</li>
+                <li class="flex items-start"><span class="text-soft-indigo mr-2">•</span> Web request/response cycle</li>
+                <li class="flex items-start"><span class="text-soft-indigo mr-2">•</span> OWASP Top 10 deep dive</li>
+                <li class="flex items-start"><span class="text-soft-indigo mr-2">•</span> Burp Suite mastery</li>
+                <li class="flex items-start"><span class="text-soft-indigo mr-2">•</span> PortSwigger completion</li>
+              </ul>
+            </div>
+            <div class="bg-charcoal/50 p-4 rounded border border-slate-700">
+              <h3 class="text-lg font-semibold text-sage mb-3">Weekly Targets</h3>
+              <ul class="space-y-2 text-sm text-slate-300">
+                <li class="flex items-start"><span class="text-sage mr-2">✓</span> 6+ hours daily study</li>
+                <li class="flex items-start"><span class="text-sage mr-2">✓</span> 20+ lab exercises</li>
+                <li class="flex items-start"><span class="text-sage mr-2">✓</span> Documentation system</li>
+                <li class="flex items-start"><span class="text-sage mr-2">✓</span> Professional profiles</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Phase 2 -->
+        <section class="card border-t-4 border-t-sage/50">
+          <h2 class="text-2xl font-bold text-slate-50 mb-4 flex items-center">
+            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-sage/20 text-sage mr-3 text-sm font-bold">2</span>
+            Execution (Weeks 8-5)
+          </h2>
+          <p class="text-slate-300 mb-6"><strong class="text-slate-100">Goal:</strong> Apply Knowledge & Hunt</p>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-charcoal/50 p-4 rounded border border-slate-700">
+              <h3 class="text-lg font-semibold text-soft-indigo mb-3">Focus Areas</h3>
+              <ul class="space-y-2 text-sm text-slate-300">
+                <li class="flex items-start"><span class="text-soft-indigo mr-2">•</span> XSS (Cross-Site Scripting)</li>
+                <li class="flex items-start"><span class="text-soft-indigo mr-2">•</span> CSRF techniques</li>
+                <li class="flex items-start"><span class="text-soft-indigo mr-2">•</span> SQL Injection</li>
+                <li class="flex items-start"><span class="text-soft-indigo mr-2">•</span> Active reconnaissance</li>
+                <li class="flex items-start"><span class="text-soft-indigo mr-2">•</span> First bug submission</li>
+              </ul>
+            </div>
+            <div class="bg-charcoal/50 p-4 rounded border border-slate-700">
+              <h3 class="text-lg font-semibold text-sage mb-3">Weekly Targets</h3>
+              <ul class="space-y-2 text-sm text-slate-300">
+                <li class="flex items-start"><span class="text-sage mr-2">✓</span> 4h learning, 5+ hunting</li>
+                <li class="flex items-start"><span class="text-sage mr-2">✓</span> Test 3+ applications</li>
+                <li class="flex items-start"><span class="text-sage mr-2">✓</span> Submit 5+ reports</li>
+                <li class="flex items-start"><span class="text-sage mr-2">✓</span> Document findings</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Phase 3 -->
+        <section class="card border-t-4 border-t-soft-indigo/50">
+          <h2 class="text-2xl font-bold text-slate-50 mb-4 flex items-center">
+            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-soft-indigo/20 text-soft-indigo mr-3 text-sm font-bold">3</span>
+            Mastery (Weeks 4-1)
+          </h2>
+          <p class="text-slate-300 mb-6"><strong class="text-slate-100">Goal:</strong> Refine & Achieve Results</p>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-charcoal/50 p-4 rounded border border-slate-700">
+              <h3 class="text-lg font-semibold text-soft-indigo mb-3">Focus Areas</h3>
+              <ul class="space-y-2 text-sm text-slate-300">
+                <li class="flex items-start"><span class="text-soft-indigo mr-2">•</span> Advanced analysis</li>
+                <li class="flex items-start"><span class="text-soft-indigo mr-2">•</span> Custom tools</li>
+                <li class="flex items-start"><span class="text-soft-indigo mr-2">•</span> Reputation building</li>
+                <li class="flex items-start"><span class="text-soft-indigo mr-2">•</span> Methodology refinement</li>
+              </ul>
+            </div>
+            <div class="bg-charcoal/50 p-4 rounded border border-slate-700">
+              <h3 class="text-lg font-semibold text-sage mb-3">Weekly Targets</h3>
+              <ul class="space-y-2 text-sm text-slate-300">
+                <li class="flex items-start"><span class="text-sage mr-2">✓</span> High-severity focus</li>
+                <li class="flex items-start"><span class="text-sage mr-2">✓</span> 5+ accepted reports</li>
+                <li class="flex items-start"><span class="text-sage mr-2">✓</span> Build reputation</li>
+                <li class="flex items-start"><span class="text-sage mr-2">✓</span> Plan Q2</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Success Metrics -->
+      <section class="card">
+        <h2 class="text-2xl font-bold text-slate-50 mb-6 flex items-center">
+          <span class="w-2 h-2 bg-sage rounded-full mr-3"></span>
+          Success Metrics
+        </h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b-2 border-slate-600">
+                <th class="px-4 py-3 text-left text-soft-indigo font-semibold">Metric</th>
+                <th class="px-4 py-3 text-left text-sage font-semibold">Target</th>
+                <th class="px-4 py-3 text-left text-slate-300 font-semibold">Current</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-slate-700 hover:bg-slate-700/20 transition">
+                <td class="px-4 py-3 text-slate-300">Daily Logs</td>
+                <td class="px-4 py-3 text-slate-300">60+</td>
+                <td class="px-4 py-3 text-soft-indigo font-medium">{totalLogsQ1}</td>
+              </tr>
+              <tr class="border-b border-slate-700 hover:bg-slate-700/20 transition">
+                <td class="px-4 py-3 text-slate-300">Weekly Reviews</td>
+                <td class="px-4 py-3 text-slate-300">12</td>
+                <td class="px-4 py-3 text-sage font-medium">{totalReviewsQ1}</td>
+              </tr>
+              <tr class="border-b border-slate-700 hover:bg-slate-700/20 transition">
+                <td class="px-4 py-3 text-slate-300">Hunting Hours</td>
+                <td class="px-4 py-3 text-slate-300">200+</td>
+                <td class="px-4 py-3 text-soft-indigo font-medium">{formatTime(totalHunting)}</td>
+              </tr>
+              <tr class="hover:bg-slate-700/20 transition">
+                <td class="px-4 py-3 text-slate-300">Valid Bug Reports</td>
+                <td class="px-4 py-3 text-slate-300">5+</td>
+                <td class="px-4 py-3 text-sage font-medium">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="flex flex-wrap gap-3 justify-center mt-16 pt-8 border-t border-slate-700">
+      <a href={`${baseUrl}/logs/`} class="btn btn-secondary inline-flex items-center">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Back to Timeline
+      </a>
+      <a href={`${baseUrl}/quarters/q2/`} class="btn btn-secondary inline-flex items-center">
+        Q2 Reference
+        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </nav>
+  </div>
+</BaseLayout>
   <div class="container-custom py-12">
     <!-- Header -->
     <div class="mb-12">
