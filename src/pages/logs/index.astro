@@ -43,7 +43,7 @@ const groupedEntries = allEntries.reduce(
 const sortedGroups = Object.values(groupedEntries).sort((a, b) => {
   if (a.quarter !== b.quarter) return b.quarter - a.quarter;
   if (a.phase !== b.phase) return b.phase - a.phase;
-  return b.week - a.week;
+  return a.week - b.week;
 });
 
 // Helper function to determine phase from week
