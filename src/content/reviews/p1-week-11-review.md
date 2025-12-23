@@ -3,6 +3,9 @@ title: "Q1 Week 11 Review: Foundation Week"
 date: 2025-12-08
 quarter: 1
 week: 11
+phase: 1
+phaseGoal: "Week-11 Monday"
+weeklyFocus: "Week-11 Monday"
 weekProgress: 70
 wins:
   - Joined HackerOne and Bugcrowd
