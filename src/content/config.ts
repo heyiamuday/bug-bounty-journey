@@ -10,7 +10,8 @@ const logsCollection = defineCollection({
         week: z.number().min(1).max(12),
         phase: z.number().min(1).max(3).optional(), // Phase 1 (W12-9), Phase 2 (W8-5), Phase 3 (W4-1)
         tags: z.array(z.string()).default([]),
-        executionScore: z.number().min(0).max(10).optional(),
+        hunting: z.number().min(0).optional(), // Time in minutes
+        total: z.number().min(0).optional(), // Time in minutes
         description: z.string().optional(),
     }),
 });
@@ -28,6 +29,8 @@ const reviewsCollection = defineCollection({
         wins: z.array(z.string()).default([]),
         challenges: z.array(z.string()).default([]),
         nextWeekFocus: z.array(z.string()).default([]),
+        hunting: z.number().min(0).optional(), // Time in minutes
+        total: z.number().min(0).optional(), // Time in minutes
         description: z.string().optional(),
     }),
 });

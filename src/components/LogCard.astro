@@ -1,14 +1,19 @@
 ---
+import { formatTime } from '../utils/timeFormat';
+
 interface Props {
   title: string;
   date: Date;
   slug: string;
+  quarter: number;
+  week: number;
   tags: string[];
-  executionScore?: number;
+  hunting?: number;
+  total?: number;
   excerpt?: string;
 }
 
-const { title, date, slug, tags, executionScore, excerpt } = Astro.props;
+const { title, date, slug, quarter, week, tags, hunting, total, excerpt } = Astro.props;
 
 const baseUrl = import.meta.env.BASE_URL;
 const formattedDate = date.toLocaleDateString('en-US', { 
@@ -24,17 +29,23 @@ const formattedDate = date.toLocaleDateString('en-US', {
       <h3 class="text-xl font-bold mb-2 hover:text-soft-indigo transition">
         <a href={`${baseUrl}/logs/${slug}/`}>{title}</a>
       </h3>
-      <div class="flex items-center space-x-3 text-sm text-slate-400">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 text-sm text-slate-400">
         <time datetime={date.toISOString()}>{formattedDate}</time>
-        {executionScore !== undefined && (
-          <span class="flex items-center space-x-1">
-            <span class="text-sage">⚡</span>
-            <span>{executionScore}/10</span>
-          </span>
-        )}
+        <span class="hidden sm:inline">·</span>
+        <span>Q{quarter}</span>
+        <span class="hidden sm:inline">·</span>
+        <span>Week {week}</span>
       </div>
     </div>
   </div>
+
+  {(hunting !== undefined || total !== undefined) && (
+    <div class="text-sm text-slate-300 mb-4">
+      <span>Hunting: {formatTime(hunting)}</span>
+      <span class="mx-2">|</span>
+      <span>Total: {formatTime(total)}</span>
+    </div>
+  )}
 
   {excerpt && (
     <p class="text-slate-300 mb-4 line-clamp-2">

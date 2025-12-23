@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { formatTime } from '../../utils/timeFormat';
 
 export async function getStaticPaths() {
   const logs = await getCollection('logs');
@@ -45,13 +46,15 @@ const baseUrl = import.meta.env.BASE_URL;
         <span class="flex items-center px-3 py-1 bg-soft-indigo/20 text-soft-indigo rounded-full text-sm font-medium">
           Q{log.data.quarter} - Week {log.data.week}
         </span>
-
-        {log.data.executionScore !== undefined && (
-          <span class="flex items-center px-3 py-1 bg-sage/20 text-sage rounded-full text-sm font-medium">
-            ⚡ {log.data.executionScore}/10
-          </span>
-        )}
       </div>
+
+      {(log.data.hunting !== undefined || log.data.total !== undefined) && (
+        <div class="mb-6 text-slate-300">
+          <span>Hunting: {formatTime(log.data.hunting)}</span>
+          <span class="mx-3">|</span>
+          <span>Total: {formatTime(log.data.total)}</span>
+        </div>
+      )}
 
       {log.data.tags.length > 0 && (
         <div class="flex flex-wrap gap-2">

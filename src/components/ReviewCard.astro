@@ -1,4 +1,6 @@
 ---
+import { formatTime } from '../utils/timeFormat';
+
 interface Props {
   title: string;
   date: Date;
@@ -8,9 +10,11 @@ interface Props {
   weekProgress: number;
   wins: string[];
   challenges: string[];
+  hunting?: number;
+  total?: number;
 }
 
-const { title, date, slug, quarter, week, weekProgress, wins, challenges } = Astro.props;
+const { title, date, slug, quarter, week, weekProgress, wins, challenges, hunting, total } = Astro.props;
 
 const baseUrl = import.meta.env.BASE_URL;
 const formattedDate = date.toLocaleDateString('en-US', { 
@@ -36,6 +40,14 @@ const formattedDate = date.toLocaleDateString('en-US', {
       </div>
     </div>
   </div>
+
+  {(hunting !== undefined || total !== undefined) && (
+    <div class="text-sm text-slate-300 mb-4">
+      <span>Hunting: {formatTime(hunting)}</span>
+      <span class="mx-2">|</span>
+      <span>Total: {formatTime(total)}</span>
+    </div>
+  )}
 
   <!-- Progress -->
   <div class="mb-6">
