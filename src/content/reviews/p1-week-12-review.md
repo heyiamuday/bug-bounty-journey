@@ -19,8 +19,8 @@ nextWeekFocus:
   - Focus on XSS and CSRF vulnerabilities
   - Submit first bug report (even if it's a duplicate)
   - Limit learning to 2 hours, hunting to 3 hours daily
-Weekly_Total(hrs): "60:02"
-Weekly_Hunting(hrs): "40:02"
+Weekly_Total(mins): 5002
+Weekly_Hunting(mins): 3002
 description: First week reflection - building the foundation
 ---
 ### Week 12 Review: The Foundation
