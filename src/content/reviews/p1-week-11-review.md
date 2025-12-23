@@ -7,6 +7,8 @@ phase: 1
 phaseGoal: "Week-11 Monday"
 weeklyFocus: "Week-11 Monday"
 weekProgress: 70
+weekly_hacking: 3002
+weekly_total: 5002
 wins:
   - Joined HackerOne and Bugcrowd
 challenges:
@@ -17,8 +19,6 @@ nextWeekFocus:
   - Focus on XSS and CSRF vulnerabilities
   - Submit first bug report (even if it's a duplicate)
   - Limit learning to 2 hours, hunting to 3 hours daily
-weekly_total: 5002
-weekly_hacking: 3002
 description: First week reflection - building the foundation
 ---
 ###  Week's 11 Game Plan 📋

@@ -6,6 +6,8 @@ week: 12
 phaseGoal: "Build Foundation - Master core tools & methodology"
 weeklyFocus: "Environment Setup & Web Fundamentals"
 weekProgress: 85
+weekly_hacking: 3002
+weekly_total: 5002
 wins:
   - Set up complete testing environment
   - Completed 20+ PortSwigger labs
@@ -19,8 +21,6 @@ nextWeekFocus:
   - Focus on XSS and CSRF vulnerabilities
   - Submit first bug report (even if it's a duplicate)
   - Limit learning to 2 hours, hunting to 3 hours daily
-Weekly_Total: 5002
-Weekly_Hacking: 3002
 description: First week reflection - building the foundation
 ---
 ### Week 12 Review: The Foundation

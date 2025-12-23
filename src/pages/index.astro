@@ -22,10 +22,9 @@ const weeksElapsed = Math.floor(daysElapsed / 7);
 const currentQuarter = 1; // Will be dynamic later
 const currentWeek = Math.max(1, 12 - weeksElapsed); // Countdown from 12 to 1
 
-// Calculate average execution score
-const logsWithScores = allLogs.filter(log => log.data.executionScore !== undefined);
-const avgScore = logsWithScores.length > 0
-  ? (logsWithScores.reduce((sum, log) => sum + (log.data.executionScore || 0), 0) / logsWithScores.length).toFixed(1)
+// Calculate average hunting hours
+const avgHours = allLogs.length > 0
+  ? (allLogs.reduce((sum, log) => sum + (log.data.daily_hacking || 0), 0) / allLogs.length / 60).toFixed(1)
   : 0;
 ---
 
@@ -62,8 +61,8 @@ const avgScore = logsWithScores.length > 0
         <div class="text-slate-400">Total Daily Logs</div>
       </div>
       <div class="card text-center">
-        <div class="text-4xl font-bold text-sage mb-2">{avgScore}</div>
-        <div class="text-slate-400">Avg Execution Score</div>
+        <div class="text-4xl font-bold text-sage mb-2">{avgHours}h</div>
+        <div class="text-slate-400">Avg Hours/Day</div>
       </div>
       <div class="card text-center">
         <div class="text-4xl font-bold text-soft-indigo mb-2">{daysElapsed}</div>
@@ -87,8 +86,11 @@ const avgScore = logsWithScores.length > 0
               title={log.data.title}
               date={log.data.date}
               slug={log.slug}
+              quarter={log.data.quarter}
+              week={log.data.week}
               tags={log.data.tags}
-              executionScore={log.data.executionScore}
+              hunting={log.data.daily_hacking}
+              total={log.data.daily_total}
               excerpt={log.data.description}
             />
           ))}

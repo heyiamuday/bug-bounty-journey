@@ -12,6 +12,7 @@ const logsCollection = defineCollection({
         tags: z.array(z.string()).default([]),
         daily_hacking: z.number().min(0).default(0), // Time in minutes
         daily_total: z.number().min(0).default(0), // Time in minutes
+        description: z.string().optional(),
     }),
 });
 
@@ -34,12 +35,22 @@ const reviewsCollection = defineCollection({
     }),
 });
 
-// Quarters collection - High-level goals for each quarter
+// Quarters collection - Quarter reference pages with 12-Week Outcome and Phase Goals
 const quartersCollection = defineCollection({
     type: 'content',
     schema: z.object({
         title: z.string(),
         quarter: z.number().min(1).max(4),
+        theme: z.string().optional(), // e.g., "Foundation", "Execution", "Specialization", "Mastery"
+    }),
+});
+
+// Roadmap collection - High-level bug bounty strategy and milestones
+const roadmapCollection = defineCollection({
+    type: 'content',
+    schema: z.object({
+        title: z.string(),
+        description: z.string().optional(),
     }),
 });
 
@@ -47,4 +58,5 @@ export const collections = {
     logs: logsCollection,
     reviews: reviewsCollection,
     quarters: quartersCollection,
+    roadmap: roadmapCollection,
 };

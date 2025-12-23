@@ -75,6 +75,8 @@ const quarters = Object.keys(groupedByQuarter).sort((a, b) => Number(b) - Number
                   weekProgress={review.data.weekProgress}
                   wins={review.data.wins}
                   challenges={review.data.challenges}
+                  hunting={review.data.weekly_hacking}
+                  total={review.data.weekly_total}
                 />
               ))}
             </div>

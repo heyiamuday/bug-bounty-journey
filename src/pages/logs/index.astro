@@ -99,7 +99,7 @@ function getPhaseName(phase: number): string {
           {
             allLogs.length > 0
               ? (
-                  allLogs.reduce((sum, l) => sum + (l.data.total || 0), 0) /
+                  allLogs.reduce((sum, l) => sum + (l.data.daily_total || 0), 0) /
                   allLogs.length / 60
                 ).toFixed(1)
               : 0
@@ -145,8 +145,8 @@ function getPhaseName(phase: number): string {
                         quarter={log.data.quarter}
                         week={log.data.week}
                         tags={log.data.tags}
-                        hunting={log.data.hunting}
-                        total={log.data.total}
+                        hunting={log.data.daily_hacking}
+                        total={log.data.daily_total}
                         excerpt={log.data.description}
                       />
                     );
@@ -162,8 +162,8 @@ function getPhaseName(phase: number): string {
                         weekProgress={review.data.weekProgress}
                         wins={review.data.wins}
                         challenges={review.data.challenges}
-                        hunting={review.data.hunting}
-                        total={review.data.total}
+                        hunting={review.data.weekly_hacking}
+                        total={review.data.weekly_total}
                       />
                     );
                   }

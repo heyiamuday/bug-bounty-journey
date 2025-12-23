@@ -60,9 +60,9 @@ const baseUrl = import.meta.env.BASE_URL;
       </div>
       <div class="card text-center py-4">
         <div class="text-2xl font-bold text-sage">
-          {(logs.filter(l => l.data.executionScore).reduce((sum, l) => sum + (l.data.executionScore || 0), 0) / logs.filter(l => l.data.executionScore).length || 0).toFixed(1)}
+          {(logs.reduce((sum, l) => sum + (l.data.daily_hacking || 0), 0) / logs.length / 60 || 0).toFixed(1)}
         </div>
-        <div class="text-sm text-slate-400">Avg Score</div>
+        <div class="text-sm text-slate-400">Avg Hours</div>
       </div>
     </div>
 
@@ -73,8 +73,11 @@ const baseUrl = import.meta.env.BASE_URL;
           title={log.data.title}
           date={log.data.date}
           slug={log.slug}
+          quarter={log.data.quarter}
+          week={log.data.week}
           tags={log.data.tags}
-          executionScore={log.data.executionScore}
+          hunting={log.data.daily_hacking}
+          total={log.data.daily_total}
           excerpt={log.data.description}
         />
       ))}

@@ -2,24 +2,24 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-// Get Q3 logs and reviews
 const allLogs = await getCollection('logs');
 const allReviews = await getCollection('reviews');
+const quartersCollection = await getCollection('quarters');
+
 const q3Logs = allLogs.filter(log => log.data.quarter === 3);
 const q3Reviews = allReviews.filter(review => review.data.quarter === 3);
+const q3Content = quartersCollection.find(q => q.data.quarter === 3);
+const { Content } = q3Content ? await q3Content.render() : { Content: null };
 
 const baseUrl = import.meta.env.BASE_URL;
 
-// Calculate Q3 stats
 const totalLogsQ3 = q3Logs.length;
 const totalReviewsQ3 = q3Reviews.length;
-const totalHunting = q3Logs.reduce((sum, log) => sum + (log.data.hunting || 0), 0);
-const totalHours = q3Logs.reduce((sum, log) => sum + (log.data.total || 0), 0);
+const totalHunting = q3Logs.reduce((sum, log) => sum + (log.data.daily_hacking || 0), 0);
+const totalHours = q3Logs.reduce((sum, log) => sum + (log.data.daily_total || 0), 0);
 
 function formatTime(minutes: number | undefined): string {
-  if (minutes === undefined || minutes === 0) {
-    return '0m';
-  }
+  if (minutes === undefined || minutes === 0) return '0m';
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
   if (hours === 0) return `${mins}m`;
@@ -28,27 +28,21 @@ function formatTime(minutes: number | undefined): string {
 }
 ---
 
-<BaseLayout title="Q3 Reference - Bug Bounty Journey" description="Quarter 3 reference page with 12-Week Outcome and Phase Goals">
+<BaseLayout title="Q3 Reference - Bug Bounty Journey" description="Quarter 3 reference page">
   <div class="container-custom py-12">
-    <!-- Header -->
     <div class="mb-12">
       <div class="mb-4">
-        <a href={`${baseUrl}/logs/`} class="text-soft-indigo hover:text-sage transition text-sm font-medium inline-flex items-center">
+        <a href={`${baseUrl}/roadmap/`} class="text-soft-indigo hover:text-sage transition text-sm font-medium inline-flex items-center">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
           </svg>
-          Back to Timeline
+          Back to Roadmap
         </a>
       </div>
-      <h1 class="text-4xl md:text-5xl font-bold mb-4">
-        Quarter <span class="text-gradient">3</span>
-      </h1>
-      <p class="text-xl text-slate-300 max-w-3xl">
-        Specialization Phase - Advanced Techniques & Premium Hunting
-      </p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Quarter <span class="text-gradient">3</span></h1>
+      <p class="text-xl text-slate-300 max-w-3xl">Specialization Phase - Advanced Techniques & Premium Hunting</p>
     </div>
 
-    <!-- Stats -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
       <div class="card text-center py-6 border-soft-indigo/30 hover:border-soft-indigo/50 transition-colors">
         <div class="text-3xl font-bold text-soft-indigo mb-2">{totalLogsQ3}</div>
@@ -68,96 +62,39 @@ function formatTime(minutes: number | undefined): string {
       </div>
     </div>
 
-    <!-- 12-Week Outcome -->
-    <section class="mb-12">
-      <div class="card">
-        <h2 class="text-3xl font-bold mb-6 flex items-center">
-          <span class="text-gradient">12-Week Outcome</span>
-        </h2>
-        <div class="prose prose-lg max-w-none text-slate-300">
-          <p>Advanced hunting techniques and premium bug finding.</p>
-          <ul>
-            <li>Master advanced vulnerability types (logic flaws, race conditions)</li>
-            <li>Develop specialized reconnaissance methodologies</li>
-            <li>Establish strong presence in private programs</li>
-            <li>Target: 20+ total confirmed reports with 3+ moderate severity</li>
-            <li>Build personal brand and mentor others in community</li>
-          </ul>
-        </div>
+    {Content && (
+      <div class="max-w-4xl mx-auto prose prose-invert mb-12">
+        <Content />
       </div>
-    </section>
+    )}
 
-    <!-- Phase Goals -->
-    <section class="mb-12">
-      <h2 class="text-3xl font-bold mb-6 flex items-center">
-        <span class="text-gradient">Phase Goals</span>
-      </h2>
-      
-      <div class="space-y-6">
-        <!-- Phase 1 -->
-        <div class="card">
-          <h3 class="text-2xl font-bold mb-4 text-soft-indigo">Phase 1: Advanced Techniques (Weeks 12-9)</h3>
-          <div class="prose prose-lg max-w-none text-slate-300">
-            <p><strong>Goal:</strong> Master Complex Vulnerabilities</p>
-            <ul>
-              <li>Study business logic vulnerabilities</li>
-              <li>Learn race condition detection and exploitation</li>
-              <li>Master API security testing</li>
-              <li>Develop advanced reconnaissance techniques</li>
-              <li>Create advanced scanning methodologies</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Phase 2 -->
-        <div class="card">
-          <h3 class="text-2xl font-bold mb-4 text-soft-indigo">Phase 2: Premium Hunting (Weeks 8-5)</h3>
-          <div class="prose prose-lg max-w-none text-slate-300">
-            <p><strong>Goal:</strong> Hunt Premium Bugs</p>
-            <ul>
-              <li>Focus on high-value target applications</li>
-              <li>Target private programs with better rewards</li>
-              <li>Hunt for impact (account takeover, data breach)</li>
-              <li>Build relationships with program managers</li>
-              <li>Target $500+ per bug average bounty</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Phase 3 -->
-        <div class="card">
-          <h3 class="text-2xl font-bold mb-4 text-soft-indigo">Phase 3: Leadership (Weeks 4-1)</h3>
-          <div class="prose prose-lg max-w-none text-slate-300">
-            <p><strong>Goal:</strong> Establish Authority</p>
-            <ul>
-              <li>Reach 20+ confirmed reports milestone</li>
-              <li>Achieve high reputation ranking on platforms</li>
-              <li>Contribute to community (writeups, mentoring)</li>
-              <li>Establish consistent monthly income from bounties</li>
-              <li>Plan Q4 (specialization or full-time opportunity)</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Navigation -->
-    <div class="flex gap-4 justify-center mt-12 pt-8 border-t border-slate-700">
+    <nav class="flex flex-wrap gap-3 justify-center mt-16 pt-8 border-t border-slate-700">
       <a href={`${baseUrl}/quarters/q2/`} class="btn btn-secondary inline-flex items-center">
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
         </svg>
         Q2 Reference
       </a>
-      <a href={`${baseUrl}/logs/`} class="btn btn-secondary">
-        Back to Timeline
-      </a>
+      <a href={`${baseUrl}/roadmap/`} class="btn btn-secondary">Back to Roadmap</a>
       <a href={`${baseUrl}/quarters/q4/`} class="btn btn-secondary inline-flex items-center">
         Q4 Reference
         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
         </svg>
       </a>
-    </div>
+    </nav>
   </div>
 </BaseLayout>
+
+<style>
+  :global(.prose h2) { @apply text-2xl font-bold mt-8 mb-4 text-slate-50; }
+  :global(.prose h3) { @apply text-xl font-bold mt-6 mb-3 text-slate-100; }
+  :global(.prose p) { @apply text-slate-300 mb-4; }
+  :global(.prose ul), :global(.prose ol) { @apply mb-4 ml-6 space-y-2; }
+  :global(.prose li) { @apply text-slate-300; }
+  :global(.prose strong) { @apply text-slate-50; }
+  :global(.prose table) { @apply w-full border-collapse mb-6; }
+  :global(.prose th) { @apply bg-slate-800 px-4 py-2 text-left font-semibold text-slate-50 border border-slate-700; }
+  :global(.prose td) { @apply px-4 py-2 border border-slate-700 text-slate-300; }
+  :global(.prose tr:hover) { @apply bg-slate-800/50; }
+</style>
