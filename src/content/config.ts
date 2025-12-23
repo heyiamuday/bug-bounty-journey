@@ -10,9 +10,8 @@ const logsCollection = defineCollection({
         week: z.number().min(1).max(12),
         phase: z.number().min(1).max(3).optional(), // Phase 1 (W12-9), Phase 2 (W8-5), Phase 3 (W4-1)
         tags: z.array(z.string()).default([]),
-        hunting: z.number().min(0).optional(), // Time in minutes
-        total: z.number().min(0).optional(), // Time in minutes
-        description: z.string().optional(),
+        hunting: z.number().min(0).default(0), // Time in minutes
+        total: z.number().min(0).default(0), // Time in minutes
     }),
 });
 
@@ -29,13 +28,23 @@ const reviewsCollection = defineCollection({
         wins: z.array(z.string()).default([]),
         challenges: z.array(z.string()).default([]),
         nextWeekFocus: z.array(z.string()).default([]),
-        hunting: z.number().min(0).optional(), // Time in minutes
-        total: z.number().min(0).optional(), // Time in minutes
+        hunting: z.number().min(0).default(0), // Time in minutes
+        total: z.number().min(0).default(0), // Time in minutes
         description: z.string().optional(),
+    }),
+});
+
+// Quarters collection - High-level goals for each quarter
+const quartersCollection = defineCollection({
+    type: 'content',
+    schema: z.object({
+        title: z.string(),
+        quarter: z.number().min(1).max(4),
     }),
 });
 
 export const collections = {
     logs: logsCollection,
     reviews: reviewsCollection,
+    quarters: quartersCollection,
 };
