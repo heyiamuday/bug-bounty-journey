@@ -54,9 +54,19 @@ const roadmapCollection = defineCollection({
     }),
 });
 
+// 365 Days Journey collection - Twitter 365 days challenge documentation
+const journey365Collection = defineCollection({
+    type: 'content',
+    schema: z.object({
+        title: z.string(),
+        description: z.string().optional(),
+    }),
+});
+
 export const collections = {
     logs: logsCollection,
     reviews: reviewsCollection,
     quarters: quartersCollection,
     roadmap: roadmapCollection,
+    '365-days-journey': journey365Collection,
 };
