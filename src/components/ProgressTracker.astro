@@ -5,7 +5,7 @@ interface Props {
   startDate?: Date;
 }
 
-const { quarter, week, startDate = new Date('2025-12-01') } = Astro.props;
+const { quarter, week, startDate = new Date("2025-12-29") } = Astro.props;
 
 // Calculate weeks remaining in the current quarter
 const weeksRemaining = week;
@@ -13,16 +13,22 @@ const progress = ((12 - week) / 12) * 100;
 
 // Calculate days elapsed
 const today = new Date();
-const daysElapsed = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+const daysElapsed = Math.floor(
+  (today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
+);
 ---
 
-<div class="card bg-gradient-to-br from-charcoal to-slate-900 border-2 border-soft-indigo/30">
+<div
+  class="card bg-gradient-to-br from-charcoal to-slate-900 border-2 border-soft-indigo/30"
+>
   <div class="mb-6">
     <h2 class="text-3xl md:text-4xl font-bold mb-2">
-      <span class="text-gradient">Q{quarter}</span> - Week <span class="text-sage">{week}</span> of 12
+      <span class="text-gradient">Q{quarter}</span> - Week <span
+        class="text-sage">{week}</span
+      > of 12
     </h2>
     <p class="text-slate-400 text-sm">
-      {weeksRemaining} week{weeksRemaining !== 1 ? 's' : ''} remaining in this quarter
+      {weeksRemaining} week{weeksRemaining !== 1 ? "s" : ""} remaining in this quarter
     </p>
   </div>
 
@@ -30,7 +36,9 @@ const daysElapsed = Math.floor((today.getTime() - startDate.getTime()) / (1000 *
   <div class="mb-6">
     <div class="flex justify-between items-center mb-2">
       <span class="text-sm text-slate-400">Quarter Progress</span>
-      <span class="text-sm font-semibold text-soft-indigo">{Math.round(progress)}%</span>
+      <span class="text-sm font-semibold text-soft-indigo"
+        >{Math.round(progress)}%</span
+      >
     </div>
     <div class="progress-bar">
       <div class="progress-fill" style={`width: ${progress}%`}></div>
@@ -39,27 +47,29 @@ const daysElapsed = Math.floor((today.getTime() - startDate.getTime()) / (1000 *
 
   <!-- Week Visualization -->
   <div class="grid grid-cols-12 gap-1 mb-4">
-    {Array.from({ length: 12 }, (_, i) => {
-      const weekNum = 12 - i; // Reverse: 12, 11, 10, ..., 1
-      const isPast = weekNum > week;
-      const isCurrent = weekNum === week;
-      
-      return (
-        <div
-          class:list={[
-            'h-8 rounded flex items-center justify-center text-xs font-semibold transition-all',
-            {
-              'bg-sage text-slate-900': isPast,
-              'bg-soft-indigo text-white ring-2 ring-sage': isCurrent,
-              'bg-slate-700 text-slate-400': !isPast && !isCurrent,
-            }
-          ]}
-          title={`Week ${weekNum}`}
-        >
-          {weekNum}
-        </div>
-      );
-    })}
+    {
+      Array.from({ length: 12 }, (_, i) => {
+        const weekNum = 12 - i; // Reverse: 12, 11, 10, ..., 1
+        const isPast = weekNum > week;
+        const isCurrent = weekNum === week;
+
+        return (
+          <div
+            class:list={[
+              "h-8 rounded flex items-center justify-center text-xs font-semibold transition-all",
+              {
+                "bg-sage text-slate-900": isPast,
+                "bg-soft-indigo text-white ring-2 ring-sage": isCurrent,
+                "bg-slate-700 text-slate-400": !isPast && !isCurrent,
+              },
+            ]}
+            title={`Week ${weekNum}`}
+          >
+            {weekNum}
+          </div>
+        );
+      })
+    }
   </div>
 
   <!-- Stats -->
@@ -75,11 +85,14 @@ const daysElapsed = Math.floor((today.getTime() - startDate.getTime()) / (1000 *
   </div>
 
   <!-- Urgency Message -->
-  {weeksRemaining <= 3 && (
-    <div class="mt-4 p-3 bg-orange-500/10 border border-orange-500/30 rounded-lg">
-      <p class="text-orange-400 text-sm font-medium">
-        ⚡ Final sprint! {weeksRemaining} week{weeksRemaining !== 1 ? 's' : ''} to crush this quarter!
-      </p>
-    </div>
-  )}
+  {
+    weeksRemaining < 4 && (
+      <div class="mt-4 p-3 bg-orange-500/10 border border-orange-500/30 rounded-lg">
+        <p class="text-orange-400 text-sm font-medium">
+          ⚡ Final sprint! {weeksRemaining} week
+          {weeksRemaining !== 1 ? "s" : ""} to crush this quarter!
+        </p>
+      </div>
+    )
+  }
 </div>

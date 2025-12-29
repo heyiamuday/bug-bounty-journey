@@ -1,21 +1,23 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import ProgressTracker from '../components/ProgressTracker.astro';
-import LogCard from '../components/LogCard.astro';
-import { getCollection } from 'astro:content';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProgressTracker from "../components/ProgressTracker.astro";
+import LogCard from "../components/LogCard.astro";
+import { getCollection } from "astro:content";
 
 // Get all logs, sorted by date (newest first)
-const allLogs = (await getCollection('logs')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+const allLogs = (await getCollection("logs")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
 
 // Get latest 7 logs for the feed
 const recentLogs = allLogs.slice(0, 7);
 
 // Calculate current quarter and week (based on Dec 1, 2025 start)
-const startDate = new Date('2025-12-01');
+const startDate = new Date("2025-12-29");
 const today = new Date();
-const daysElapsed = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+const daysElapsed = Math.floor(
+  (today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
+);
 const weeksElapsed = Math.floor(daysElapsed / 7);
 
 // Determine current quarter and week (reverse countdown)
@@ -23,9 +25,14 @@ const currentQuarter = 1; // Will be dynamic later
 const currentWeek = Math.max(1, 12 - weeksElapsed); // Countdown from 12 to 1
 
 // Calculate average hunting hours
-const avgHours = allLogs.length > 0
-  ? (allLogs.reduce((sum, log) => sum + (log.data.daily_hacking || 0), 0) / allLogs.length / 60).toFixed(1)
-  : 0;
+const avgHours =
+  allLogs.length > 0
+    ? (
+        allLogs.reduce((sum, log) => sum + (log.data.daily_hacking || 0), 0) /
+        allLogs.length /
+        60
+      ).toFixed(1)
+    : 0;
 ---
 
 <BaseLayout title="Welcome to My 2026 Bug Bounty Journey!">
@@ -33,17 +40,21 @@ const avgHours = allLogs.length > 0
     <!-- Hero Section -->
     <div class="text-center mb-16 animate-fade-in">
       <h1 class="text-5xl md:text-6xl font-bold mb-6">
-        Welcome to My <span class="text-gradient">2026 Bug Bounty Journey!</span>
+        Welcome to My <span class="text-gradient">2026 Bug Bounty Journey!</span
+        >
       </h1>
       <p class="text-xl text-slate-300 max-w-3xl mx-auto mb-8">
-        Documenting my path from beginner to bug bounty hunter using the <strong class="text-sage">12 Week Year</strong> methodology.
-        Four quarters of intense, focused execution. No excuses, just results.
+        Documenting my path from beginner to bug bounty hunter using the <strong
+          class="text-sage">12 Week Year</strong
+        > methodology. Four quarters of intense, focused execution. No excuses, just
+        results.
       </p>
       <div class="flex justify-center space-x-4">
-        <a href="#latest-logs" class="btn btn-primary">
-          View Timeline
-        </a>
-        <a href={`${import.meta.env.BASE_URL}/about/`} class="btn btn-secondary">
+        <a href="#latest-logs" class="btn btn-primary"> View Timeline </a>
+        <a
+          href={`${import.meta.env.BASE_URL}/about/`}
+          class="btn btn-secondary"
+        >
           About the Journey
         </a>
       </div>
@@ -51,13 +62,19 @@ const avgHours = allLogs.length > 0
 
     <!-- Progress Tracker -->
     <div class="mb-16">
-      <ProgressTracker quarter={currentQuarter} week={currentWeek} startDate={startDate} />
+      <ProgressTracker
+        quarter={currentQuarter}
+        week={currentWeek}
+        startDate={startDate}
+      />
     </div>
 
     <!-- Quick Stats -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
       <div class="card text-center">
-        <div class="text-4xl font-bold text-soft-indigo mb-2">{allLogs.length}</div>
+        <div class="text-4xl font-bold text-soft-indigo mb-2">
+          {allLogs.length}
+        </div>
         <div class="text-slate-400">Total Daily Logs</div>
       </div>
       <div class="card text-center">
@@ -65,7 +82,9 @@ const avgHours = allLogs.length > 0
         <div class="text-slate-400">Avg Hours/Day</div>
       </div>
       <div class="card text-center">
-        <div class="text-4xl font-bold text-soft-indigo mb-2">{daysElapsed}</div>
+        <div class="text-4xl font-bold text-soft-indigo mb-2">
+          {daysElapsed}
+        </div>
         <div class="text-slate-400">Days of Execution</div>
       </div>
     </div>
@@ -74,42 +93,55 @@ const avgHours = allLogs.length > 0
     <section id="latest-logs">
       <div class="flex items-center justify-between mb-8">
         <h2 class="text-3xl font-bold">Latest Logs</h2>
-        <a href={`${import.meta.env.BASE_URL}/logs/`} class="text-soft-indigo hover:text-sage transition font-medium">
+        <a
+          href={`${import.meta.env.BASE_URL}/logs/`}
+          class="text-soft-indigo hover:text-sage transition font-medium"
+        >
           View all →
         </a>
       </div>
 
-      {recentLogs.length > 0 ? (
-        <div class="space-y-6">
-          {recentLogs.map(log => (
-            <LogCard
-              title={log.data.title}
-              date={log.data.date}
-              slug={log.slug}
-              quarter={log.data.quarter}
-              week={log.data.week}
-              tags={log.data.tags}
-              hunting={log.data.daily_hacking}
-              total={log.data.daily_total}
-              excerpt={log.data.description}
-            />
-          ))}
-        </div>
-      ) : (
-        <div class="card text-center py-12">
-          <p class="text-slate-400 text-lg">No logs yet. The journey begins soon!</p>
-        </div>
-      )}
+      {
+        recentLogs.length > 0 ? (
+          <div class="space-y-6">
+            {recentLogs.map((log) => (
+              <LogCard
+                title={log.data.title}
+                date={log.data.date}
+                slug={log.slug}
+                quarter={log.data.quarter}
+                week={log.data.week}
+                tags={log.data.tags}
+                hunting={log.data.daily_hacking}
+                total={log.data.daily_total}
+                excerpt={log.data.description}
+              />
+            ))}
+          </div>
+        ) : (
+          <div class="card text-center py-12">
+            <p class="text-slate-400 text-lg">
+              No logs yet. The journey begins soon!
+            </p>
+          </div>
+        )
+      }
     </section>
 
     <!-- Call to Action -->
-    <div class="mt-16 card bg-gradient-to-br from-soft-indigo/20 to-sage/20 border-soft-indigo/30 text-center py-12">
+    <div
+      class="mt-16 card bg-gradient-to-br from-soft-indigo/20 to-sage/20 border-soft-indigo/30 text-center py-12"
+    >
       <h2 class="text-3xl font-bold mb-4">Follow the Journey</h2>
       <p class="text-slate-300 mb-6 max-w-2xl mx-auto">
-        This is a living document of my bug bounty learning journey. Every day, every win, every failure - all documented here.
+        This is a living document of my bug bounty learning journey. Every day,
+        every win, every failure - all documented here.
       </p>
       <div class="flex justify-center space-x-4">
-        <a href={`${import.meta.env.BASE_URL}/reviews/`} class="btn btn-primary">
+        <a
+          href={`${import.meta.env.BASE_URL}/reviews/`}
+          class="btn btn-primary"
+        >
           Weekly Reviews
         </a>
         <a href={`${import.meta.env.BASE_URL}/tags/`} class="btn btn-secondary">

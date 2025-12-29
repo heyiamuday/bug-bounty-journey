@@ -63,10 +63,20 @@ const journey365Collection = defineCollection({
     }),
 });
 
+// Impossible List collection
+const impossibleListCollection = defineCollection({
+    type: 'content',
+    schema: z.object({
+        title: z.string(),
+        description: z.string().optional(),
+    }),
+});
+
 export const collections = {
     logs: logsCollection,
     reviews: reviewsCollection,
     quarters: quartersCollection,
     roadmap: roadmapCollection,
     '365-days-journey': journey365Collection,
+    'impossible-list': impossibleListCollection,
 };

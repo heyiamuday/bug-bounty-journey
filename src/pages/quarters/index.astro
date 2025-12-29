@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const baseUrl = import.meta.env.BASE_URL;
+const quarters = (await getCollection("quarters")).sort(
+    (a, b) => a.data.quarter - b.data.quarter,
+);
+---
+
+<BaseLayout
+    title="Quarters - My Bug Bounty Journey"
+    description="The 12 Week Year structure of my bug bounty journey, divided into 4 quarters."
+>
+    <div class="container-custom py-12">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold mb-8">
+                Journey <span class="text-gradient">Quarters</span>
+            </h1>
+
+            <p class="text-xl text-slate-300 mb-12">
+                My 2026 journey is divided into 4 intense 12-week cycles. Each
+                quarter has a specific theme and outcome.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                {
+                    quarters.map((quarter) => {
+                        const isEven = quarter.data.quarter % 2 === 0;
+                        const colorClass = isEven
+                            ? "text-sage"
+                            : "text-soft-indigo";
+                        const hoverBorderClass = isEven
+                            ? "hover:border-sage/50"
+                            : "hover:border-soft-indigo/50";
+                        const hoverShadowClass = isEven
+                            ? "hover:shadow-sage/10"
+                            : "hover:shadow-soft-indigo/10";
+                        const groupHoverTextClass = isEven
+                            ? "group-hover:text-white"
+                            : "group-hover:text-sage"; // Corrected based on original Q1/Q3 vs Q2/Q4 hover colors
+
+                        return (
+                            <a
+                                href={`${baseUrl}/quarters/q${quarter.data.quarter}/`}
+                                class="group block"
+                            >
+                                <div
+                                    class={`bg-charcoal p-8 rounded-lg border border-slate-700 h-full transition-all duration-300 hover:shadow-lg ${hoverBorderClass} ${hoverShadowClass}`}
+                                >
+                                    <div
+                                        class={`font-bold text-2xl mb-4 group-hover:text-white transition-colors ${colorClass}`}
+                                    >
+                                        {quarter.data.title}
+                                    </div>
+                                    <p class="text-slate-300 mb-4">
+                                        {quarter.data.theme}
+                                    </p>
+                                    <div
+                                        class={`text-sm font-semibold transition-colors ${colorClass} ${groupHoverTextClass}`}
+                                    >
+                                        View Plan →
+                                    </div>
+                                </div>
+                            </a>
+                        );
+                    })
+                }
+            </div>
+        </div>
+    </div>
+</BaseLayout>
+```

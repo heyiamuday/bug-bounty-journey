@@ -1,8 +1,67 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getEntry } from "astro:content";
+
+const entry = await getEntry("impossible-list", "index");
+if (!entry) {
+  throw new Error("Impossible list content not found");
+}
+
+const { title, description } = entry.data;
+const rawBody = entry.body;
+
+// Helper to parse markdown list items to the specific HTML structure
+function parseList(content: string, isCompleted = false) {
+  const lines = content.split("\n");
+  let html = '<ul class="space-y-2">';
+
+  lines.forEach((line) => {
+    line = line.trim();
+    if (line.startsWith("- [ ]") || line.startsWith("- [x]")) {
+      const isChecked = line.startsWith("- [x]");
+      const text = line.replace(/- \[[ x]\] /, "");
+
+      // Override isCompleted if the item is explicitly checked
+      const checkedStyle = isChecked || isCompleted;
+
+      // Determine Icons and Colors based on state
+      // Original:
+      // Unchecked: text-slate-500 ☐
+      // Checked: text-sage ✓, and text-slate-300 for list parent usually, but here specific items
+
+      // Checkbox Icon
+      const icon = checkedStyle ? "✓" : "☐";
+      const iconClass = checkedStyle ? "text-sage mr-3" : "text-slate-500 mr-3";
+
+      html += `
+        <li class="flex items-start">
+          <span class="${iconClass}">${icon}</span>
+          <span>${text}</span>
+        </li>
+      `;
+    } else if (line.length > 0 && !line.startsWith("###")) {
+      // Handle paragraphs or other text inside lists
+      html += `<p class="mb-2">${line}</p>`;
+    }
+  });
+
+  html += "</ul>";
+  return html;
+}
+
+// Split content by H2 sections
+const sections: { heading: string; content: string }[] = rawBody
+  .split(/^## /m)
+  .slice(1)
+  .map((section: string) => {
+    const lines = section.split("\n");
+    const heading = lines[0].trim();
+    const content = lines.slice(1).join("\n");
+    return { heading, content };
+  });
 ---
 
-<BaseLayout title="Impossible List" description="My impossible list - goals and achievements that seemed impossible">
+<BaseLayout title={title} description={description || "My impossible list"}>
   <div class="container-custom py-12">
     <div class="max-w-4xl mx-auto">
       <!-- Header -->
@@ -10,151 +69,98 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         The <span class="text-gradient">Impossible List</span>
       </h1>
       <p class="text-xl text-slate-300 mb-12">
-        Not a bucket list. An ever-evolving list of goals that push my limits and redefine what's possible.
-        Inspired by <a href="https://impossiblehq.com/impossible-list/" target="_blank" class="text-soft-indigo hover:text-sage">Joel Runyon's Impossible List</a>.
+        {description}
+        <br />
+        <span class="text-base mt-2 block"
+          >Inspired by <a
+            href="https://impossiblehq.com/impossible-list/"
+            target="_blank"
+            class="text-soft-indigo hover:text-sage"
+            >Joel Runyon's Impossible List</a
+          >.</span
+        >
       </p>
 
-      <!-- Current Goals -->
-      <div class="card mb-8">
-        <h2 class="text-2xl font-bold mb-6 flex items-center">
-          <span class="text-soft-indigo mr-2">🎯</span>
-          Current Challenges
-        </h2>
-        
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-lg font-semibold text-sage mb-3">Bug Bounty</h3>
-            <ul class="space-y-2">
-              <li class="flex items-start">
-                <span class="text-slate-500 mr-3">☐</span>
-                <span>Get listed on a Hall of Fame</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-slate-500 mr-3">☐</span>
-                <span>Submit my first valid bug report</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-slate-500 mr-3">☐</span>
-                <span>Earn my first 1K$ bounty</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-slate-500 mr-3">☐</span>
-                <span>Find a critical vulnerability</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-slate-500 mr-3">☐</span>
-                <span>Earn $10,000 in bounties</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-slate-500 mr-3">☐</span>
-                <span>Chain multiple vulnerabilities for maximum impact</span>
-              </li>
-            </ul>
-          </div>
+      {
+        sections.map((section) => {
+          // Determine Card Style and Icon based on Heading
+          let icon = "";
+          let iconColor = "text-soft-indigo";
+          let cardClass = "card mb-8";
+          let headingClass = "text-2xl font-bold mb-6 flex items-center";
 
-          <div>
-            <h3 class="text-lg font-semibold text-sage mb-3">Skills & Certifications</h3>
-            <ul class="space-y-2">
-              <li class="flex items-start">
-                <span class="text-slate-500 mr-3">☐</span>
-                <span>Complete all PortSwigger Academy labs</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-slate-500 mr-3">☐</span>
-                <span>Learn OSWE certification skills</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-slate-500 mr-3">☐</span>
-                <span>Learn OSCP certification skills</span>
-              </li>
-            </ul>
-          </div>
+          if (section.heading.includes("Current Challenges")) {
+            icon = "🎯";
+          } else if (section.heading.includes("Accomplished")) {
+            icon = "✅";
+            iconColor = "text-sage";
+            cardClass = "card mb-8 bg-sage/5 border-sage/30";
+          } else if (section.heading.includes("Life")) {
+            icon = "🌟";
+          }
 
-          <div>
-            <h3 class="text-lg font-semibold text-sage mb-3">Contribution & Impact</h3>
-            <ul class="space-y-2">
-              <li class="flex items-start">
-                <span class="text-slate-500 mr-3">☐</span>
-                <span>Publish a bug bounty writeup</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-slate-500 mr-3">☐</span>
-                <span>Create a useful security tool</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-slate-500 mr-3">☐</span>
-                <span>Help another beginner get their first bug</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-slate-500 mr-3">☐</span>
-                <span>Speak at a security conference/poadcast</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+          // Check if section has subsections (H3)
+          const hasSubsections = section.content.includes("### ");
 
-      <!-- Completed Goals -->
-      <div class="card mb-8 bg-sage/5 border-sage/30">
-        <h2 class="text-2xl font-bold mb-6 flex items-center">
-          <span class="text-sage mr-2">✅</span>
-          Accomplished
-        </h2>
-        
-        <div class="space-y-4">
-          <div>
-            <h3 class="text-lg font-semibold text-sage mb-3">Foundation</h3>
-            <ul class="space-y-2 text-slate-300">
-              <li class="flex items-start">
-                <span class="text-sage mr-3">✓</span>
-                <span>Started the bug bounty journey (Dec 2025)</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-sage mr-3">✓</span>
-                <span>Built a public learning journal</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-sage mr-3">✓</span>
-                <span>Set up professional testing environment</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+          return (
+            <div class={cardClass}>
+              <h2 class={headingClass}>
+                <span class={`${iconColor} mr-2`}>{icon}</span>
+                {section.heading}
+              </h2>
 
-      <!-- Life Goals (Beyond Security) -->
-      <div class="card">
-        <h2 class="text-2xl font-bold mb-6 flex items-center">
-          <span class="text-soft-indigo mr-2">🌟</span>
-          Life & Growth
-        </h2>
-        
-        <div class="space-y-4">
-          <p class="text-slate-300">
-            The Impossible List isn't just about bug bounty. It's about becoming the best version of myself.
-          </p>
-          <ul class="space-y-2">
-            <li class="flex items-start">
-              <span class="text-slate-500 mr-3">☐</span>
-              <span>Complete a 365-day learning streak</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-slate-500 mr-3">☐</span>
-              <span>Read 12 books in a year</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-slate-500 mr-3">☐</span>
-              <span>Build a sustainable remote career in security</span>
-            </li>
-          </ul>
-        </div>
-      </div>
+              <div class="space-y-6">
+                {hasSubsections ? (
+                  section.content
+                    .split(/^### /m)
+                    .slice(1)
+                    .map((sub: string) => {
+                      const subLines = sub.split("\n");
+                      const subTitle = subLines[0].trim();
+                      const subContent = subLines.slice(1).join("\n");
+                      return (
+                        <div>
+                          <h3 class="text-lg font-semibold text-sage mb-3">
+                            {subTitle}
+                          </h3>
+                          <div
+                            set:html={parseList(
+                              subContent,
+                              section.heading.includes("Accomplished"),
+                            )}
+                          />
+                        </div>
+                      );
+                    })
+                ) : (
+                  <div
+                    set:html={parseList(
+                      section.content,
+                      section.heading.includes("Accomplished"),
+                    )}
+                  />
+                )}
+
+                {!hasSubsections &&
+                  section.heading.includes("Life") &&
+                  // Special case for 'Life' section if it has paragraphs/intro text before the list
+                  // But our simple parser might just treat everything as list items or ignore.
+                  // For now, simple list parsing works for the defined artifact.
+                  null}
+              </div>
+            </div>
+          );
+        })
+      }
 
       <!-- Note -->
-      <div class="mt-8 p-6 bg-soft-indigo/10 border border-soft-indigo/30 rounded-lg">
+      <div
+        class="mt-8 p-6 bg-soft-indigo/10 border border-soft-indigo/30 rounded-lg"
+      >
         <p class="text-sm text-slate-300">
-          <strong>Note:</strong> This list will evolve. As I accomplish goals, new impossible ones replace them.
-          The point isn't to complete the list—it's to keep pushing forward.
+          <strong>Note:</strong> This list will evolve. As I accomplish goals, new
+          impossible ones replace them. The point isn't to complete the list—it's
+          to keep pushing forward.
         </p>
       </div>
     </div>
