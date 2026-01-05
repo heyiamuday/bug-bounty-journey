@@ -95,8 +95,12 @@
     @apply text-slate-300 mb-4;
   }
 
-  .prose ul, .prose ol {
-    @apply text-slate-300 mb-4 pl-6;
+  .prose ul {
+    @apply text-slate-300 mb-4 pl-6 list-disc;
+  }
+
+  .prose ol {
+    @apply text-slate-300 mb-4 pl-6 list-decimal;
   }
 
   .prose li {
